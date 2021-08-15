@@ -1,0 +1,57 @@
+doctype html
+html(lang="en")
+    head
+        title=title 
+        link(rel="stylesheet", href="stylesheets/categories.css")
+        script(await src="javascripts/categories.js")
+
+    body 
+        div.row
+            div.col-md-6.mb-4
+                .card
+                    .card-header 
+                        h3.quick-sand-font.text-center.text-white Add Category
+                    .card-content.p-4
+                        form(class='category-form')
+                            .form-group 
+                                input.form-control.category-name(type="text" name='category' placeholder="Enter Category Name")
+                            div
+                                button.btn.rounded-0.quick-sand-font.px-3.px-2(type="submit") SAVE 
+                                button.btn.btn-danger.d-none.loading-btn(disabled)
+                                  span.spinner-border.spinner-border-sm.mr-2
+                                  span Loading..
+  
+            div.col-md-6.mb-4
+                .card
+                    .card-header 
+                         h3.quick-sand-font.text-center.text-white Categories
+                    .card-content.p-4
+                        ul.list-group.list-group-flush
+                           -var allCategory=categories.length == 0 ? [] : categories
+                           if allCategory.length > 0
+                             each category,index in categories     
+                               li.list-group-item.quick-sand-font.text-capitalize.d-flex.flex-row.justify-content-between.align-items-center
+                                 span=index+1+' . '+category.name
+                                 div.btn-group.d-flex.flex-row.justify-content-center.align-items-center 
+                                    button.btn.edit-btn(title="Edit" _id=category._id cat_name=category.name)
+                                      i.fa.fa-edit.text-primary(style='font-size:21px')
+                                    button.btn.delete-btn(title="Delete" _id=category._id)
+                                      i.fa.fa-trash.text-danger(style='font-size:21px')  
+                           else 
+                             div(align="center")
+                               h3.quick-sand-font.text-center Add Some Categories
+                               i.fa.fa-search.text-danger(style='font-size:50px')           
+        //- Modal
+        div#editModal.modal.fade(role="dialog")
+          div.modal-dialog
+            button(type="button" class="close" data-dismiss="modal" style="color:red;font-size:36px") &times;
+            div.modal-content.p-5.overflow-auto
+              form.edit-form
+                .form-group 
+                    input.form-control.cat-name-input(type="text" placeholder="Write New Category Name")
+                div(align='right')  
+                    button.btn.text-white.rounded-0(type='submit') SAVE UPDATE
+                    button.btn.btn-danger.d-none.loading-btn(disabled)
+                        span.spinner-border.spinner-border-sm.mr-2
+                        span Loading.. 
+                        

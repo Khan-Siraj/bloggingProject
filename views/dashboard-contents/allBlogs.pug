@@ -1,0 +1,85 @@
+doctype html
+html(lang="en")
+    head
+        title=title
+        link(rel="stylesheet", href="stylesheets/allBlogs.css")
+        script(await src="javascripts/allBlogs.js")
+    body
+        div.row  
+          div.col-md-4.mb-2 
+            h1.quick-sand-font All Blogs
+          div.col-md-4.mb-2 
+              <input class="form-control" id="myInput" type="text" placeholder="Search..">            
+          div.col-md-4.mb-2  
+              select.form-control.filter-by-category
+                option(value='0') All
+                each category,i in categories
+                  option.text-capitalize(value=category.name)=category.name
+                      
+        table.table.table-hover.table-dark.text-center.shadow.table-responsive.md(id='blog-table')
+            thead
+             tr 
+              th.quick-sand-font No
+              th.quick-sand-font Author 
+              th.quick-sand-font-not-work Title 
+              th.quick-sand-font Content 
+              th.quick-sand-font Category
+              th.quick-sand-font Image
+              th.quick-sand-font Date
+              th.quick-sand-font Action
+            tbody 
+             each blog,index in data 
+              tr 
+               td.d-none._id(_id=blog._id)
+               td.quick-sand-font=index+1
+               td.quick-sand-font(style='width:125px')=blog.author
+               td.quick-sand-font=blog.title
+               - var content=""
+               - for(var x=0; x <= 60; x++)
+                    - content = content+blog.content[x]
+               td.quick-sand-font=content
+                a.load-more(full-content=blog.content,style="cursor:pointer") ...Click
+               td.quick-sand-font.text-capitalize=blog.category
+               td
+                img(src=blog.image, alt="", srcset="" width="100px")
+               td.quick-sand-font=blog.created_at 
+               td
+                div.btn-group.d-flex.flex-column.justify-content-around.align-items-center 
+                  button.btn.edit-btn(title="Edit" _id=blog._id blog=blog)
+                    i.fa.fa-edit.text-primary(style='font-size:21px')
+                  button.btn.delete-btn(title="Delete" _id=blog._id blogImage=blog.image)
+                    i.fa.fa-trash.text-danger(style='font-size:21px')
+        
+        //- Modal
+        div#myModal.modal.fade(role="dialog")
+          div.modal-dialog
+            button(type="button" class="close" data-dismiss="modal" style="color:red;font-size:36px") &times;
+            div.modal-content.p-5.overflow-auto(style="height:600px" )
+        //- edit Modal
+        div#editModal.modal.fade(role="dialog")
+          div.modal-dialog
+            button(type="button" class="close" data-dismiss="modal" style="color:red;font-size:36px") &times;
+            div.modal-content.p-5.overflow-auto
+                .card 
+                     .card-header 
+                         h2.text-white.quick-sand-font Write A New Blog
+                     .card-body 
+                         form(enctype="multipart/form-data")#updateBlogForm
+                             .form-group 
+                                 input.form-control(type="text", name="title",placeholder="Title")
+                             .form-group 
+                                 input.form-control(type="text", name="author",placeholder="Author Name")
+                             .form-group 
+                                 select.form-control(name="category") 
+                                     option(value="0") Select Category 
+                                     each category,i in categories
+                                       option.text-capitalize(value=category.name)=category.name
+                             .form-group 
+                                 input.form-control(type="file", name="image" id="image_input_field")
+                             .form-group 
+                                 textarea.form-control(name="content", cols="30", rows="10") Write Your Thoughts Here... 
+                             div(align="right") 
+                                 button.btn.px-4.py-2.rounded-0.quick-sand-font(type='submit') UPDATE
+                                 button.btn.btn-danger.d-none.loading-btn(disabled)
+                                    span.spinner-border.spinner-border-sm.mr-2 
+                                    span Loading..

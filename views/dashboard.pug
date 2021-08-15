@@ -1,0 +1,30 @@
+doctype html
+html(lang="en")
+    head
+        title=title
+        include bootstraps
+        link(rel="stylesheet", href="stylesheets/dashboard.css")
+        script(src="javascripts/dashboard.js") 
+    body(style="background-color:#F2F2F2") 
+        .sidenav.sidenav-open
+             .sidenav-items.sidenav-list-open.px-2
+                button.btn.p-1.mb-4(style="background:inherit" link="/create-blog")
+                    i.fa.fa-pencil-square-o.mr-2.text-white(style="font-size:20px")
+                    span.text-white.display-none-on-mobile.quick-sand-font(style="font-size:20px") Create Blog
+                button.btn.p-1.mb-4(style="background:inherit" link="/categories")
+                    i.fa.fa.fa-th.mr-2.text-white(style="font-size:20px")
+                    span.text-white.display-none-on-mobile.quick-sand-font(style="font-size:20px") Categories
+                button.btn.p-1.mb-4.active(style="background:inherit" link="/all-blogs")
+                    i.fa.fa.fa-sticky-note.mr-2.text-white(style="font-size:20px")
+                    span.text-white.display-none-on-mobile.quick-sand-font(style="font-size:20px") All Blogs
+        .section.section-open 
+            nav.navbar.bg-white.px-3.py-2
+              div
+                button.btn.toggler
+                    i.fa.fa-align-left
+              ul.navbar-nav
+                li.nav-item
+                  a.nav-link.quick-sand-font(href="#") BloggingSite
+            .sidenav-content.p-5
+    
+        

@@ -1,0 +1,29 @@
+doctype html
+html(lang="en")
+    head
+      link(rel="stylesheet", href="stylesheets/createBlog.css")
+      script(await src="javascripts/createBlog.js")
+    body 
+        .card 
+            .card-header 
+                h2.text-white.quick-sand-font Write A New Blog
+            .card-body 
+                form(enctype="multipart/form-data")#createBlogForm
+                    .form-group 
+                        input.form-control(type="text", name="title",placeholder="Title")
+                    .form-group 
+                        input.form-control(type="text", name="author",placeholder="Author Name")
+                    .form-group 
+                        select.form-control(name="category") 
+                            option(value="0") Select Category 
+                            each category,i in categories
+                              option.text-capitalize(value=category.name)=category.name
+                    .form-group 
+                        input.form-control(type="file", name="image")
+                    .form-group 
+                        textarea.form-control(name="content", cols="30", rows="10") Write Your Thoughts Here... 
+                    div(align="right") 
+                        button.btn.px-4.py-2.rounded-0.quick-sand-font(type='submit') SAVE
+                        button.btn.btn-danger.d-none.loading-btn(disabled)
+                           span.spinner-border.spinner-border-sm.mr-2 
+                           span Loading..
