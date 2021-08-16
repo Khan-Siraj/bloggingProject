@@ -1,9 +1,11 @@
 const mongoose = require('mongoose');
 const blogSchema = require('../models/createBlog.model');
 const categorySchema = require('../models/categories.model');
+const adminSchema = require('../models/admin.model');
 const schemaList = {
    blog:blogSchema,
-   category:categorySchema
+   category:categorySchema,
+   admin:adminSchema
 };
 
 const options ={
@@ -27,6 +29,12 @@ const getAllRecords = async (schemaName,order)=>{
   return dataRes;
 }
 
+const getRecordByQuery = async (query,schemaName)=>{
+  const selectSchema = schemaList[schemaName];
+  const dataRes = await selectSchema.find(query);
+  return dataRes;
+}
+
 const deleteRecordById = async (schemaName,id)=>{
   const selectSchema = schemaList[schemaName];
   const dataRes = await selectSchema.deleteOne({'_id':id});
@@ -42,6 +50,7 @@ const updateRecordById = async (schemaName,id,data)=>{
 module.exports = {
     createRecord:createRecord,
     getAllRecords:getAllRecords,
+    getRecordByQuery:getRecordByQuery,
     deleteRecordById:deleteRecordById,
     updateRecordById:updateRecordById
 }

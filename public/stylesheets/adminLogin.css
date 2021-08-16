@@ -1,0 +1,12 @@
+input:focus,
+button:focus,
+textarea:focus,
+select:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+button.btn[type="submit"] {
+  background-color: #63ff64;
+  color: rgb(255, 255, 255);
+}

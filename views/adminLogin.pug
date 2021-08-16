@@ -1,0 +1,36 @@
+doctype html
+html(lang="en")
+    head
+        include bootstraps
+        link(rel="stylesheet", href="stylesheets/adminLogin.css")
+        script(src="javascripts/adminLogin.js")
+        title=title
+    body(style="background-color:#F2F2F2")
+        div.p-3
+           div.d-flex.flex-column.justify-content-center.align-items-center(style="height:100vh;")
+                h4.quick-sand-font.display-4.my-4 Admin Login 
+                .card.p-5  
+                    .card-content.py-5
+                        .row
+                            .col-md-6 
+                                img(src="images/login.svg", width="100%" alt="")
+                            .col-md-6.d-flex.flex-column.justify-content-center.align-items-center 
+                                form.form-signin.w-md-50.loginform(enctype="multipart/form-data")
+                                    h4.my-3.font-weight-normal.quick-sand-font Please sign in
+                                    .form-group
+                                      label.sr-only(for="inputEmail") Email address
+                                      input.form-control(type="email" name="email" id="inputEmail" placeholder="Email address" required autofocus)
+                                      span.email-error.text-danger
+                                    .form-group 
+                                      label.sr-only(for="inputPassword") Password
+                                      input.form-control(type="password" name="password" id="inputPassword" placeholder="Password" required)
+                                      span.password-error.text-danger
+                                    div.checkbox.mb-3
+                                    //-    label
+                                    //-      input.mr-2(type="checkbox" value="remember-me")
+                                    //-      span Remember me
+                                    button.btn.btn-lg.btn-block(type="submit") Sign in
+                                   
+    
+                
+        

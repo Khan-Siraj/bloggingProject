@@ -1,8 +1,18 @@
 const _dbService = require('../services/database.service');
 
 const addCategory = async (request,response)=>{
-    const dataRes = await _dbService.createRecord(request.body,'category')
-    return dataRes;
+    try{
+        const dataRes = await _dbService.createRecord(request.body,'category')
+        return {
+            isCategoryCreated:true,
+            data:dataRes
+        };
+    }catch(error){
+        return {
+            isCategoryCreated:false,
+            error:error
+        };
+    }
 }
 
 const getCategories = async (request,response)=>{

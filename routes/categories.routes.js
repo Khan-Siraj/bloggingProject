@@ -5,7 +5,15 @@ const router = express.Router();
 router.post('/',async (request,response)=>{
 //    console.log('Routes Console',request.body);
    const dataRes = await categoryController.addCategory(request,response);
-   response.json(dataRes);
+   if(dataRes.isCategoryCreated){
+      response
+      .status(200)
+      .json(dataRes)
+   }else{
+      response
+      .status(409)
+      .json(dataRes)
+   }
 })
 
 router.get('/',async (request,response)=>{
