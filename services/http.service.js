@@ -8,6 +8,15 @@ const postRequest = async (request)=>{
     });
     return response;
 }
+const postRequestWithFile = async (request)=>{
+    const response = await ajax(request.endpoint)
+    .post(request.api)
+    .send({
+        token:request.data,
+        file:request.file
+    });
+    return response;
+}
 
 const getRequest = async (request)=>{
     const response= await ajax(request.endpoint)
@@ -18,5 +27,6 @@ const getRequest = async (request)=>{
 
 module.exports = {
     postRequest:postRequest,
-    getRequest:getRequest
+    getRequest:getRequest,
+    postRequestWithFile:postRequestWithFile
 }

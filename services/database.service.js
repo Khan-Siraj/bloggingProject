@@ -28,10 +28,15 @@ const getAllRecords = async (schemaName,order)=>{
   const dataRes = await selectSchema.find().sort({created_at:order});
   return dataRes;
 }
+const getLimitedRecords = async (schemaName,order,limit)=>{
+  const selectSchema = schemaList[schemaName];
+  const dataRes = await selectSchema.find().sort({created_at:order}).limit(limit);
+  return dataRes;
+}
 
 const getRecordByQuery = async (query,schemaName)=>{
   const selectSchema = schemaList[schemaName];
-  const dataRes = await selectSchema.find(query);
+  const dataRes = await selectSchema.find(query).sort({created_at:-1});
   return dataRes;
 }
 
@@ -50,6 +55,7 @@ const updateRecordById = async (schemaName,id,data)=>{
 module.exports = {
     createRecord:createRecord,
     getAllRecords:getAllRecords,
+    getLimitedRecords:getLimitedRecords,
     getRecordByQuery:getRecordByQuery,
     deleteRecordById:deleteRecordById,
     updateRecordById:updateRecordById

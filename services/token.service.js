@@ -14,10 +14,23 @@ const createToken = async (request,expiresIn)=>{
     return token;
 
 }
+const createCustomToken = async (request,expiresIn)=>{
+    const formData = request.body.data;
+    const endpoint = request.endpoint;
+    const api = request.api;
+    const iss = endpoint+api;
+    const token = await jwt.sign({
+        iss:iss,
+        data:request.body
+    },secretKey,{expiresIn:expiresIn});
+    return token;
+}
+
+
 
 const verifyToken =  (request)=>{
     let token = "";
-    if(request.method == 'GET'){
+    if(request.method == 'GET' || request.method == 'DELETE' || request.method == 'PUT'){
         if(request.headers['x-auth-token']){
            token = request.headers['x-auth-token'];
         }
@@ -28,7 +41,6 @@ const verifyToken =  (request)=>{
     else{
         token = request.body.token;
     }
-
     // Verify Token
     if(token){
         try{
@@ -59,5 +71,6 @@ const verifyToken =  (request)=>{
 
 module.exports = {
     createToken:createToken,
-    verifyToken:verifyToken
+    verifyToken:verifyToken,
+    createCustomToken:createCustomToken
 }

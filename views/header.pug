@@ -1,0 +1,16 @@
+div.container-fluid.bg-light.py-3.desktop-brand
+   h1.display-3.text-center Blogging/News Website
+
+mixin categories(categories) 
+  nav.navbar.navbar-expand-md.bg-white.shadow-sm.sticky-top
+    a.navbar-brand.mobile-brand(href="#") Blogging/News
+    button.navbar-toggler(type="button" data-toggle="collapse" data-target="#collapsibleNavbar")
+        span
+            i.fa.fa-align-justify
+    div.collapse.navbar-collapse#collapsibleNavbar
+      ul.navbar-nav
+        li.nav-item.btn
+           a.nav-link.quick-sand-font.text-capitalize(href='/') Home
+        each category in categories
+          li.nav-item.btn
+           a.nav-link.quick-sand-font.text-capitalize(href='/blog-news/'+category.name)=category.name

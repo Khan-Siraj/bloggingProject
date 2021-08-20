@@ -10,18 +10,23 @@ html(lang="en")
             .card-body 
                 form(enctype="multipart/form-data")#createBlogForm
                     .form-group 
-                        input.form-control(type="text", name="title",placeholder="Title")
+                        input.form-control.title-field(type="text", name="title",placeholder="Title")
+                        span.title-error.text-danger.d-none
                     .form-group 
-                        input.form-control(type="text", name="author",placeholder="Author Name")
+                        input.form-control.author-field(type="text", name="author",placeholder="Author Name")
+                        span.author-error.text-danger.d-none
                     .form-group 
-                        select.form-control(name="category") 
+                        select.form-control.select-field(name="category") 
                             option(value="0") Select Category 
                             each category,i in categories
                               option.text-capitalize(value=category.name)=category.name
+                        span.select-error.text-danger.d-none
                     .form-group 
-                        input.form-control(type="file", name="image")
+                        input.form-control.image-field(type="file", name="image" accept="image/*")
+                        span.image-error.text-danger.d-none
                     .form-group 
-                        textarea.form-control(name="content", cols="30", rows="10") Write Your Thoughts Here... 
+                        textarea.form-control.content-field(name="content", cols="30", rows="10") 
+                        span.content-error.text-danger.d-none
                     div(align="right") 
                         button.btn.px-4.py-2.rounded-0.quick-sand-font(type='submit') SAVE
                         button.btn.btn-danger.d-none.loading-btn(disabled)

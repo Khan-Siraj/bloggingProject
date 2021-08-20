@@ -15,6 +15,7 @@ html(lang="en")
                         form(class='category-form')
                             .form-group 
                                 input.form-control.category-name(type="text" name='category' placeholder="Enter Category Name")
+                                span.category-error.text-danger.d-none
                             div
                                 button.btn.rounded-0.quick-sand-font.px-3.px-2(type="submit") SAVE 
                                 button.btn.btn-danger.d-none.loading-btn(disabled)
@@ -36,7 +37,10 @@ html(lang="en")
                                     button.btn.edit-btn(title="Edit" _id=category._id cat_name=category.name)
                                       i.fa.fa-edit.text-primary(style='font-size:21px')
                                     button.btn.delete-btn(title="Delete" _id=category._id)
-                                      i.fa.fa-trash.text-danger(style='font-size:21px')  
+                                      i.fa.fa-trash.text-danger(style='font-size:21px')
+                                    div.spinner-border.text-danger.d-none.loading-spin(role="status")
+                                      span.sr-only
+
                            else 
                              div(align="center")
                                h3.quick-sand-font.text-center Add Some Categories
@@ -49,6 +53,7 @@ html(lang="en")
               form.edit-form
                 .form-group 
                     input.form-control.cat-name-input(type="text" placeholder="Write New Category Name")
+                    span.cat-name-error.text-danger.d-none
                 div(align='right')  
                     button.btn.text-white.rounded-0(type='submit') SAVE UPDATE
                     button.btn.btn-danger.d-none.loading-btn(disabled)

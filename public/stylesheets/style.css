@@ -1,8 +1,32 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+/* Google Fonts Classes */
+
+.quick-sand-font {
+  font-family: "Quicksand", sans-serif;
+  color: black;
 }
 
-a {
-  color: #00B7FF;
+.desktop-brand {
+  display: block;
+}
+
+.mobile-brand {
+  display: none;
+}
+
+.responsive-title {
+  font-size: 48px;
+}
+
+@media (max-width: 768px) {
+  .desktop-brand {
+    display: none;
+  }
+
+  .mobile-brand {
+    display: block;
+  }
+
+  .responsive-title {
+    font-size: 24px;
+  }
 }

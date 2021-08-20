@@ -3,10 +3,12 @@
 /**
  * Module dependencies.
  */
-
+var fs = require('fs');
 var app = require('../app');
 var debug = require('debug')('blogging:server');
 var http = require('http');
+const path = require('path');
+
 
 /**
  * Get port from environment and store in Express.
@@ -18,8 +20,12 @@ app.set('port', port);
 /**
  * Create HTTP server.
  */
+ var options = {
+  key: fs.readFileSync(path.join(__dirname,'cert','key.pem'),'utf-8'),
+  cert: fs.readFileSync(path.join(__dirname,'cert','cert.pem'),'utf-8'),
+}
 
-var server = http.createServer(app);
+var server = http.createServer(options,app);
 
 /**
  * Listen on provided port, on all network interfaces.

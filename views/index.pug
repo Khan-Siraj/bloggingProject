@@ -1,5 +1,9 @@
 extends layout
 
-block content
-  h1= title
-  p Welcome to #{title}
+block bootstrapsBlock 
+  include bootstraps
+
+block header
+  include header
+  +categories(categories)
+  

@@ -8,14 +8,24 @@ $(document).ready(function(){
             data:{
                 name:name
             },
+            beforeSend:()=>{
+                $(".category-form button[type='submit']").addClass('d-none');
+                $('.loading-btn').removeClass('d-none');
+            },
             success:(response)=>{
-             console.log('Success Call =>');
-             console.log(response);
-             reloadCategories();
+             $(".category-form button[type='submit']").removeClass('d-none');
+             $('.loading-btn').addClass('d-none');
+             if(response.isCategoryCreated){
+                reloadCategories();
+             }
+            
             },
             error:(error)=>{
-                console.log('Error Call =>');
-                console.log(error);
+                $(".category-form button[type='submit']").removeClass('d-none');
+                $('.loading-btn').addClass('d-none');
+                $('.category-name').addClass('border border-danger text-danger animate__animated animate__bounce');
+                $('.category-error').html(error.responseJSON.message.text);
+                $('.category-error').removeClass('d-none');
             }
         })
     })
@@ -35,20 +45,30 @@ $(document).ready(function(){
                var new_cat_name = $('.cat-name-input').val().toLowerCase();
                $.ajax({
                 type:'PUT',
-                url:'/api/categories/'+id,
+                url:'/api/categoriesAction/'+id,
                 data:{
                     name:new_cat_name
                 },
+                beforeSend:()=>{
+                    $(".edit-form button[type='submit']").addClass('d-none');
+                    $('.loading-btn').removeClass('d-none');
+                },
                 success:(response)=>{
-                    console.log('Success Call =>');
-                    console.log(response);
-                    reloadCategories();
-                    $('#editModal').modal('hide');
+                    $(".edit-form button[type='submit']").removeClass('d-none');
+                    $('.loading-btn').addClass('d-none');
+                    if(response.isCategoryUpdated){
+                        reloadCategories();
+                        $('#editModal').modal('hide');
+                    }
                    },
                 error:(error)=>{
+                    $(".edit-form button[type='submit']").removeClass('d-none');
+                    $('.loading-btn').addClass('d-none');
                     console.log('Error Call =>');
-                    console.log(error);
-                    $('#editModal').modal('hide');
+                    // console.log(error.responseJSON);
+                    $('.cat-name-input').addClass('border border-danger text-danger animate__animated animate__bounce');
+                    $('.cat-name-error').html(error.responseJSON.message);
+                    $('.cat-name-error').removeClass('d-none'); 
                 }
             })
             })
@@ -58,15 +78,22 @@ $(document).ready(function(){
     $('.delete-btn').each(function(){
         $(this).click(function(){
             var id = $(this).attr('_id');
+            var delBtn = this;
             $.ajax({
                 type:'DELETE',
-                url:'/api/categories/'+id,
+                url:'/api/categoriesAction/'+id,
+                beforeSend:()=>{
+                    $(delBtn).addClass('d-none');
+                    $(this).next().removeClass('d-none');
+                },
                 success:(response)=>{
-                    console.log('Success Call =>');
-                    console.log(response);
+                    $(delBtn).removeClass('d-none');
+                    $(this).next().addClass('d-none');
                     reloadCategories();
                    },
                 error:(error)=>{
+                    $(delBtn).removeClass('d-none');
+                    $(this).next().addClass('d-none');
                     console.log('Error Call =>');
                     console.log(error);
                 }
@@ -85,3 +112,15 @@ function reloadCategories(){
         }
      })
 }
+
+// Resest Error Field
+$(document).ready(()=>{
+    $('.category-form input,.edit-form input').each(function(){
+        $(this).click(function(){
+            if($(this).hasClass('border-danger')){
+                $(this).removeClass('border border-danger text-danger animate__animated animate__bounce');
+                $(this).next().html('');
+            }
+        })
+    })
+})

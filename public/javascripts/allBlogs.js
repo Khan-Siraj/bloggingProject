@@ -57,11 +57,17 @@ $(document).ready(function(){
 
                $.ajax({
                    type:'PUT',
-                   url:'/api/create-blog/'+id,
+                   url:'/api/blogAction/'+id,
                    data:formData,
                    processData:false,
                    contentType:false,
+                   beforeSend:()=>{
+                    $("#updateBlogForm button[type='submit']").addClass('d-none');
+                    $('.loading-btn').removeClass('d-none');
+                   },
                    success:(response)=>{
+                      $("#updateBlogForm button[type='submit']").removeClass('d-none');
+                      $('.loading-btn').addClass('d-none');
                       console.log('Success Call.');
                       console.log(response);
                       $('#editModal').modal('hide');
@@ -69,8 +75,17 @@ $(document).ready(function(){
 
                    },
                    error:(error)=>{
-                    console.log('Error Call.');
-                    console.log(error.responseJSON);
+                    $("#updateBlogForm button[type='submit']").removeClass('d-none');
+                    $('.loading-btn').addClass('d-none');
+                    if(error.status == 422){
+                        $('.title-field').addClass('border border-danger text-danger animate__animated animate__bounce');
+                        $('.title-error').html(error.responseJSON.message);
+                        $('.title-error').removeClass('d-none'); 
+                    }else{
+                        $(`.${error.responseJSON.message.field}-field`).addClass('border border-danger text-danger animate__animated animate__bounce');
+                        $(`.${error.responseJSON.message.field}-error`).html(error.responseJSON.message.text);
+                        $(`.${error.responseJSON.message.field}-error`).removeClass('d-none'); 
+                    }
                    }
                })
             })
@@ -81,18 +96,27 @@ $(document).ready(function(){
         $(this).click(function(){
             var id = $(this).attr('_id');
             var imagePath = $(this).attr('blogImage');
+            var delBtn = this;
             $.ajax({
                 type:'DELETE',
-                url:'/api/create-blog/'+id,
+                url:'/api/blogAction/'+id,
                 data:{
                    image:imagePath
                 },
+                beforeSend:()=>{
+                    $(delBtn).addClass('d-none');
+                    $(this).next().removeClass('d-none');
+                },
                 success:(response)=>{
+                    $(delBtn).removeClass('d-none');
+                    $(this).next().addClass('d-none');
                     console.log('Success Call =>');
                     console.log(response);
                     reloadCategories();
                    },
                 error:(error)=>{
+                    $(delBtn).removeClass('d-none');
+                    $(this).next().addClass('d-none');
                     console.log('Error Call =>');
                     console.log(error);
                 }
@@ -131,3 +155,15 @@ function reloadCategories(){
         }
      })
 }
+
+// Resest Error Field
+$(document).ready(()=>{
+    $('#updateBlogForm input,#updateBlogForm textarea').each(function(){
+        $(this).click(function(){
+            if($(this).hasClass('border-danger')){
+                $(this).removeClass('border border-danger text-danger animate__animated animate__bounce');
+                $(this).next().html('');
+            }
+        })
+    })
+})

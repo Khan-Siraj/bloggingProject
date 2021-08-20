@@ -1,3 +1,7 @@
+// Redirect user to profile if already logged
+if(document.cookie.indexOf('auth_token')!=-1){
+    window.location='/dashboard';
+}
 $(document).ready(function(){
     $('.loginform').submit((e)=>{
         e.preventDefault();
@@ -7,12 +11,20 @@ $(document).ready(function(){
             data:new FormData(e.target),
             processData:false,
             contentType:false,
+            beforeSend:()=>{
+                $(".loginform button[type='submit']").addClass('d-none');
+                $('.loading-btn').removeClass('d-none');
+            },
             success:(response)=>{
+                $(".loginform button[type='submit']").removeClass('d-none');
+                $('.loading-btn').addClass('d-none');
                 if(response.isUserValid){
                     window.location='/dashboard';
                 }
             },
             error:(error)=>{
+                $(".loginform button[type='submit']").removeClass('d-none');
+                $('.loading-btn').addClass('d-none');
                 if(error.status == 404){
                     $('#inputEmail').addClass('border border-danger text-danger animate__animated animate__bounce');
                     $('.email-error').html(error.responseJSON.message);
@@ -26,6 +38,7 @@ $(document).ready(function(){
         })
     })
 })
+
 
 // Resest Error Field
 $(document).ready(()=>{

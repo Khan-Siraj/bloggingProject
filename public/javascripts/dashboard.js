@@ -46,6 +46,15 @@ $(document).ready(function () {
 
  })
 
+ // Logout 
+
+$(document).ready(function(){
+    $('.logout-btn').click(function(){
+        document.cookie="auth_token='';max-age=0"; 
+        window.location='/admin-login';
+    })
+})
+
  function activeLink(){
     const link = $(".sidenav-items button.active").attr('link');
     $.ajax({

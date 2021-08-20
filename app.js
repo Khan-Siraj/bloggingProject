@@ -11,8 +11,13 @@ const dashboardRouter = require('./routes/dashboard.routes');
 const adminLoginRouter = require('./routes/adminLogin.routes');
 const adminRouter = require('./routes/admin.routes');
 const crateBlogRouter = require('./routes/crateBlog.routes');
+const blogRouter = require('./routes/blog.routes');
 const categoryRouter = require('./routes/categories.routes');
+const categoriesActionRouter = require('./routes/categoriesAction.routes');
+const blogActionRouter = require('./routes/blogAction.routes');
+const categoryPrivateRouter = require('./routes/categories.private.routes');
 const loginRouter = require('./routes/login.routes');
+const blogByCategoryRouter = require('./routes/blogByCategory.routes');
 
 var app = express();
 
@@ -33,6 +38,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/admin-login',adminLoginRouter);
+app.use('/blog-news',blogByCategoryRouter);
 
 // Public API Routing
 app.use('/api/categories',categoryRouter);
@@ -53,7 +59,11 @@ app.use((request,response,next)=>{
    }
 });
 app.use('/api/private/admin',adminRouter);
+app.use('/api/private/blog',blogRouter);
+app.use('/api/private/categories',categoryPrivateRouter);
 app.use('/dashboard',dashboardRouter);
+app.use('/api/categoriesAction',categoriesActionRouter);
+app.use('/api/blogAction',blogActionRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

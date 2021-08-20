@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { countDocuments } = require('./categories.model');
 
 const { Schema } = mongoose;
 
@@ -29,10 +30,50 @@ const blogSchema = new Schema({
     },   
 })
 
-blogSchema.pre('save',function(next){
-    console.log('Model Call =>');
-    console.log(this);
-    next();
+blogSchema.pre('validate',async function(next){
+    if(this.title != ""){
+        next();
+    }else{
+        throw next({
+            field:'title',
+            text:'Title Is Required !'
+        })
+    }
+})
+blogSchema.pre('validate',async function(next){
+    if(this.author != ""){
+        next();
+    }else{
+        throw next({
+            field:'author',
+            text:'Author Name Is Required !'
+        })
+    }
+})
+blogSchema.pre('validate',async function(next){
+    if(this.content != " "){
+        next();
+    }else{
+        throw next({
+            field:'content',
+            text:'Write Some Words Atleast !'
+        })
+    }
+})
+
+blogSchema.pre('save',async function(next){
+    const query = {
+        title:this.title
+    };
+    const length = await mongoose.model('Blog').countDocuments(query);
+    if(length > 0){
+        throw next({
+            field:'title',
+            text:'This Title Already Exits !'
+        })
+    }else{
+        next();
+    }
 })
 
 

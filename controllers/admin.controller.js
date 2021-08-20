@@ -10,7 +10,9 @@ const getAdmin = async (request,response)=>{
        const emailRes = await _dbService.getRecordByQuery(getEmail,'admin');
        if(emailRes.length > 0){
         if(emailRes[0].password == token.data.password){
-            const data = emailRes[0];
+            const data = {
+                email:emailRes[0].email
+            };
             response
            .status(200)
            .json({
